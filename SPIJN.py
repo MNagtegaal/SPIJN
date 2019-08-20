@@ -4,7 +4,11 @@
 @author: Martijn Nagtegaal
 @email: m.a.nagtegaal@tudelft.nl
  
-Code to use the Sparsity Promoting Iterative Joint NNLS (SPIJN) algorithm, designed for multi-component MRF
+Code to use the Sparsity Promoting Iterative Joint NNLS (SPIJN) algorithm, designed for multi-component MRF.
+When using this code. Please refer to the original paper
+
+Nagtegaal, Martijn, Peter Koken, Thomas Amthor, and Mariya Doneva. “Fast Multi-Component Analysis Using a Joint Sparsity Constraint for MR Fingerprinting.” Magnetic Resonance in Medicine https://doi.org/10.1002/mrm.27947.
+
 """
 import numpy as np
 import time
