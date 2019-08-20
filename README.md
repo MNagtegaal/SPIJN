@@ -1,7 +1,9 @@
 # SPIJN
 ## Description
 Code for the Sparsity Promoting Iterative Joint NNLS  (SPIJN) algorithm as used for Multi-component Magnetic Resonance Fingerprinting using a joint sparsity constraint.
-The algorithm is described in ...
+The algorithm is described in 
+
+Nagtegaal, Martijn, Peter Koken, Thomas Amthor, and Mariya Doneva. “Fast Multi-Component Analysis Using a Joint Sparsity Constraint for MR Fingerprinting.” Magnetic Resonance in Medicine https://doi.org/10.1002/mrm.27947.
 
 ## Code provided
 SPIJN.py provides the SPIJN function to perform a MC-MRF decomposition and the lsqnonneg fuction to perform a voxel-wise NNLS solve in a similar way.
