@@ -58,7 +58,7 @@ def lsqnonneg(Y,red_dict,out_z = None,out_rel_err = None,return_r = False,S=None
     else:
         return out_z, out_rel_err,r
 
-def rewlsqnonneg(Y,red_dict,w,out_z = None,out_rel_err = None,return_r = False,L=0,S=None):
+def rewlsqnonneg(Y,red_dict,w,out_z = None,out_rel_err = None,return_r = False,L=0,S=None, norms = None):
     """
     Performs a reweighted NN least squares signal-wise
     """
@@ -83,8 +83,11 @@ def rewlsqnonneg(Y,red_dict,w,out_z = None,out_rel_err = None,return_r = False,L
     if S is not None:
         R = R[S]
     R = R.T*w**.5
-
-    R = np.vstack((R,L*np.ones(R.shape[1])))
+    if norms are None:
+       regfac = np.ones(R.shape[1])
+    else:
+       refac = norms.copy()
+    R = np.vstack((R,L*regfac))
 #        out_z = np.apply_along_axis(lambda x:sp.optimize.nnls(R,x)[0],0,Y1)
     if Y.shape[1]>1e5:
         for k in range(int(Y.shape[1]/10000)+1): 
@@ -110,7 +113,7 @@ def rewlsqnonneg(Y,red_dict,w,out_z = None,out_rel_err = None,return_r = False,L
 
 def SPIJN(Y,red_dict,num_comp=10,p=0,max_iter=20,
               verbose = True,norm_sig = True,tol=1e-4,L=0,correct_im_size = False,prun = 2,
-              C1=None):
+              C1=None, norms = None):
     """Perform the SPIJN algorithm
     INPUT:
     - Y: Signals with shape M,J (M is the signal length, J the number of signals)
@@ -131,6 +134,8 @@ def SPIJN(Y,red_dict,num_comp=10,p=0,max_iter=20,
     - C1: When C1 is provided, the first Joint NNLS solve can be skipped. 
             This can be usefull when experiments are performed with regard to the
             regularization parameter.
+    - norms: normalization factors of normalized dictionary atoms
+       
     OUTPUT:
     - Cr : Weigths for the different components, ordered on weight, indices are in Sfull. Length is based on num_comp
     - Sfull : The indices of the weights as given in Cr
@@ -178,7 +183,7 @@ def SPIJN(Y,red_dict,num_comp=10,p=0,max_iter=20,
             w[w<eps] = eps # prevent 0-weighting
             C0 = C.copy()
             t0 = time.clock()
-            C,rel_err,r = rewlsqnonneg(Y,red_dict,w,out_z=C0,L=L,return_r = True,S=S) # Perform real calculations
+            C,rel_err,r = rewlsqnonneg(Y,red_dict,w,out_z=C0,L=L,return_r = True,S=S, norm=norm) # Perform real calculations
             if verbose: print('matching time: {0:.5f}s'.format(time.clock() - t0))
             rel = np.linalg.norm(C-C0,ord='fro')/np.linalg.norm(C,ord='fro') #Determine relative convergence
             if verbose:
