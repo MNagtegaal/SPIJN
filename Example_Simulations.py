@@ -21,7 +21,7 @@ def add_noise(I,SNR):
                 I_max = np.abs(i).max()
                 i+=np.random.normal(0,I_max/SNR,i.shape)
 #%% Load data
-T1_phantom = np.asarray([67,1000,2000])
+T1_phantom = np.asarray([67,1000,2000]) # values as used in the simulations
 T2_phantom = np.asarray([13,100,500])
 
 data = np.load('data.npz')
@@ -29,7 +29,7 @@ data = np.load('data.npz')
 I = data['I'] #Simulated image 
 T1_list = data['T1'] 
 T2_list = data['T2']
-D = data['D'] # Dictionary
+D = data['D'] # Dictionary with normalized atoms
 D_norm_factors = data['D_norm_factors'] # Normalization factors of the dictonary atoms
 Dc = data['Dc'] # SVD compressed dictionary
 Compr = data['Compr'] # Compression matrix
